@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 const parse = require('csv-parse/lib/sync');
 const got = require('got');
 const moment = require('moment-timezone');
@@ -24,38 +22,42 @@ function filterPostcodes(postcodes) {
     && VALID_POSTCODES.includes(postcode.postcode));
 }
 
-(async () => {
+async function checkForCases() {
+  let output = '';
   const lgas = await getCasesByLGA();
 
   const today = moment().tz('Australia/Melbourne').format('DD/MM/YYYY');
   const lastUpdated = lgas[0].file_processed_date;
 
   if (today !== lastUpdated) {
-    return console.log('⏳ Case data not updated yet');
+    return '⏳ Case data not updated yet';
   }
 
   const geelong = lgas.find((lga) => lga.LGA === 'Greater Geelong (C)');
   geelong.new = +geelong.new;
 
   if (+geelong.new === 0) {
-    return console.log('✅ No new cases reported in Greater Geelong');
+    return '✅ No new cases reported in Greater Geelong';
   }
 
-  console.log(`😷 ${geelong.new} new case${geelong.new > 1 ? 's' : ''} reported in Greater Geelong\n`);
+  output += `😷 ${geelong.new} new case${geelong.new > 1 ? 's' : ''} reported in Greater Geelong\n\n`;
 
   const postcodes = await getCasesByPostcode();
   const postcodesLastUpdated = postcodes[0].file_processed_date;
 
   if (today !== postcodesLastUpdated) {
-    return console.log('⏳ Postcode data not updated yet');
+    output += '⏳ Postcode data not updated yet';
+    return output;
   }
 
   const geelongPostcodes = filterPostcodes(postcodes);
 
   geelongPostcodes.forEach((postcode) => {
-    console.log(`🦠 ${postcode.postcode}: ${postcode.new}`);
-    console.log(`   ${postcodeNames[postcode.postcode]}\n`);
+    output += `🦠 ${postcode.postcode}: ${postcode.new}\n`;
+    output += `   ${postcodeNames[postcode.postcode]}\n\n`;
   });
 
-  return 0;
-})();
+  return output;
+}
+
+module.exports = checkForCases;
