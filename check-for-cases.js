@@ -30,7 +30,9 @@ async function checkForCases() {
   const lastUpdated = lgas[0].file_processed_date;
 
   if (today !== lastUpdated) {
-    return '⏳ Case data not updated yet';
+    output += '⏳ Case data not updated yet\n';
+    output += '   This is usually updated around 12 PM AEST';
+    return output;
   }
 
   const geelong = lgas.find((lga) => lga.LGA === 'Greater Geelong (C)');
