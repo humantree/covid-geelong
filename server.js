@@ -5,7 +5,11 @@ const app = new Koa();
 const port = process.env.PORT || 3000;
 
 app.use(async (ctx) => {
-  ctx.body = await checkForCases();
+  const skipTimeCheck = ctx.request.query.skipTimeCheck
+    ? ctx.request.query.skipTimeCheck.toLowerCase() === 'true'
+    : false;
+
+  ctx.body = await checkForCases(skipTimeCheck);
 });
 
 app.listen(port);
