@@ -5,13 +5,14 @@
   "scripts": {
     "cli": "node cli.js",
     "lint": "npx eslint .",
-    "start": "node cli.js"
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "csv-parse": "^4.16.2",
     "got": "^11.8.2",
+    "koa": "^2.13.1",
     "moment-timezone": "^0.5.33"
   },
   "devDependencies": {
