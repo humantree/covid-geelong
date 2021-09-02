@@ -22,14 +22,14 @@ function filterPostcodes(postcodes) {
     && VALID_POSTCODES.includes(postcode.postcode));
 }
 
-async function checkForCases() {
+async function checkForCases(skipTimeCheck = false) {
   let output = '';
   const lgas = await getCasesByLGA();
 
   const today = moment().tz('Australia/Melbourne').format('DD/MM/YYYY');
   const lastUpdated = lgas[0].file_processed_date;
 
-  if (today !== lastUpdated) {
+  if (!skipTimeCheck && today !== lastUpdated) {
     output += '⏳ Case data not updated yet\n';
     output += '   This is usually updated around 12 PM AEST';
     return output;
@@ -47,7 +47,7 @@ async function checkForCases() {
   const postcodes = await getCasesByPostcode();
   const postcodesLastUpdated = postcodes[0].file_processed_date;
 
-  if (today !== postcodesLastUpdated) {
+  if (!skipTimeCheck && today !== postcodesLastUpdated) {
     output += '⏳ Postcode data not updated yet';
     return output;
   }
