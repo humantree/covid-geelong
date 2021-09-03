@@ -1,0 +1,17 @@
+body {
+  background-color: rgb(14, 17, 22);
+  color: rgb(202, 209, 216);
+
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+div {
+  width: 800px;
+  max-width: 100%;
+
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+
+  white-space: pre-line;
+}

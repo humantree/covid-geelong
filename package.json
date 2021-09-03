@@ -14,7 +14,9 @@
     "csv-parse": "^4.16.2",
     "got": "^11.8.2",
     "koa": "^2.13.1",
-    "moment-timezone": "^0.5.33"
+    "koa-pug": "^5.0.0",
+    "moment-timezone": "^0.5.33",
+    "pug": "^3.0.2"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
