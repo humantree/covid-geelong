@@ -17,9 +17,9 @@ async function getCasesByPostcode() {
 }
 
 function filterPostcodes(postcodes) {
-  const VALID_POSTCODES = ['3211', '3212', '3213', '3214', '3215', '3216', '3219', '3220', '3222', '3223', '3224', '3225', '3226', '3227'];
+  const validPostcodes = Object.keys(postcodeNames);
   return postcodes.filter((postcode) => postcode.new > 0
-    && VALID_POSTCODES.includes(postcode.postcode));
+    && validPostcodes.includes(postcode.postcode));
 }
 
 async function checkForCases(skipTimeCheck = false) {
