@@ -13,7 +13,9 @@ app.use(async (ctx) => {
     ? ctx.request.query.skipTimeCheck.toLowerCase() === 'true'
     : false;
 
-  const content = await checkForCases(skipTimeCheck);
+  const allActive = ctx.request.url === '/active';
+  const content = await checkForCases(skipTimeCheck, allActive);
+
   await ctx.render('index', { content });
 });
 
