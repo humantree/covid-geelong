@@ -22,7 +22,11 @@ function filterPostcodes(postcodes, fieldToFilter) {
     && validPostcodes.includes(postcode.postcode));
 }
 
-async function checkForCases(skipTimeCheck = false, checkAllActiveCases = false) {
+async function checkForCases(options) {
+  const checkAllActiveCases = options.allActive || false;
+  const rawNumber = options.rawNumber || false;
+  const skipTimeCheck = options.skipTimeCheck || false;
+
   let output = '';
   const lgas = await getCasesByLGA();
 
@@ -30,6 +34,7 @@ async function checkForCases(skipTimeCheck = false, checkAllActiveCases = false)
   const lastUpdated = lgas[0].file_processed_date;
 
   if (!checkAllActiveCases && !skipTimeCheck && today !== lastUpdated) {
+    if (rawNumber) return -1;
     output += '⏳ Case data not updated yet\n';
     output += '   This is usually updated around 12 PM AEST';
     return output;
@@ -47,6 +52,7 @@ async function checkForCases(skipTimeCheck = false, checkAllActiveCases = false)
     output += `😷 ${geelong.active} active case${geelong.active > 1 ? 's' : ''} reported in Greater Geelong\n\n`;
   } else {
     geelong.new = +geelong.new;
+    if (rawNumber) return geelong.new;
 
     if (geelong.new === 0) {
       return '✅ No new cases reported in Greater Geelong';

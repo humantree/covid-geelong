@@ -9,14 +9,16 @@ const port = process.env.PORT || 3000;
 new Pug({ app, viewPath: './views' });
 
 app.use(async (ctx) => {
+  const allActive = ctx.request.path === '/active';
+  const rawNumber = ctx.request.path === '/raw-number';
   const skipTimeCheck = ctx.request.query.skipTimeCheck
     ? ctx.request.query.skipTimeCheck.toLowerCase() === 'true'
     : false;
 
-  const allActive = ctx.request.url === '/active';
-  const content = await checkForCases(skipTimeCheck, allActive);
+  const content = await checkForCases({ skipTimeCheck, allActive, rawNumber });
 
-  await ctx.render('index', { content });
+  if (rawNumber) ctx.body = { count: content };
+  else await ctx.render('index', { content });
 });
 
 app.listen(port);
