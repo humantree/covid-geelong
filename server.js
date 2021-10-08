@@ -17,7 +17,8 @@ app.use(async (ctx) => {
 
   const content = await checkForCases({ skipTimeCheck, allActive, rawNumber });
 
-  await ctx.render('index', { content });
+  if (rawNumber) ctx.body = { count: content };
+  else await ctx.render('index', { content });
 });
 
 app.listen(port);
