@@ -10,5 +10,8 @@ const checkForCases = require('./check-for-cases');
   ];
 
   const options = commandLineArgs(optionDefinitions);
-  console.log(await checkForCases(options['skip-time-check'], options['all-active']));
+  console.log(await checkForCases({
+    allActive: options['all-active'],
+    skipTimeCheck: options['skip-time-check'],
+  }));
 })();
