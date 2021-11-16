@@ -30,7 +30,7 @@ async function checkForCases(options) {
   let output = '';
   const lgas = await getCasesByLGA();
 
-  const today = moment().tz('Australia/Melbourne').format('DD/MM/YYYY');
+  const today = moment().tz('Australia/Melbourne').format('YYYY-MM-DD');
   const lastUpdated = lgas[0].file_processed_date;
 
   if (!checkAllActiveCases && !skipTimeCheck && today !== lastUpdated) {
